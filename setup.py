@@ -35,7 +35,7 @@ class CMakeExtension(Extension):
         self.sourcedir = os.path.abspath(sourcedir)
 
 
-def add_torch_deps():
+def add_torch_deps(ext):
     here = os.path.dirname(os.path.abspath(__file__))
     cmake = os.path.join(here, 'CMakeLists.txt')
 
@@ -87,7 +87,7 @@ class CMakeBuild(build_ext):
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
 
-        add_torch_deps()
+        add_torch_deps(ext)
 
         subprocess.check_call(['cmake', ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env)
         subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
