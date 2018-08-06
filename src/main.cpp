@@ -84,7 +84,17 @@ std::vector<at::Tensor> lltm_backward(
   return {d_old_h, d_input, d_weights, d_bias, d_old_cell};
 }
 
+void fill_ones(at::Tensor& t) {
+  auto t_p = t.accessor<int8_t, 2>();
+  for(int i = 0; i < t_p.size(0); i++) {
+    for(int j = 0; j < t_p.size(1); j++) {
+      t_p[i][j] = 1;
+    }
+  }
+}
+
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   m.def("forward", &lltm_forward, "LLTM forward");
   m.def("backward", &lltm_backward, "LLTM backward");
+  m.def("fill_ones", &fill_ones, "Fill ones");
 }

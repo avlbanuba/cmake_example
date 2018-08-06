@@ -74,8 +74,13 @@ terms and conditions of this license.
 ## Test call
 
 ```python
+import torch
 import cmake_example
-cmake_example.add(1, 2)
+
+t = torch.zeros([2, 2], dtype=torch.int8)
+print(t)
+cmake_example.fill_ones(t)
+print(t)
 ```
 
 
